@@ -8,7 +8,7 @@ RUN yum update -y
 # Expecting kmod software version as an input to the build
 ARG KMODVER
 # Grab the software from upstream
-ADD https://github.com/kmods-via-containers/simple-kmod/archive/${KMODVER}.tar.gz ./file.tar.gz
+ADD https://github.com/rh-dluong/gasket-driver/archive/${KMODVER}.tar.gz ./file.tar.gz
 RUN tar -x --strip-components=1 -f ./file.tar.gz
 
 # Expecting kernel version as an input to the build
@@ -23,6 +23,7 @@ RUN koji download-build --rpm --arch=$(uname -m) kernel-core-${KVER}    && \
 
 # Prep and build the module
 RUN yum install -y make
+WORKDIR src
 RUN make buildprep KVER=${KVER} KMODVER=${KMODVER}
 RUN make all       KVER=${KVER} KMODVER=${KMODVER}
 RUN make install   KVER=${KVER} KMODVER=${KMODVER}
