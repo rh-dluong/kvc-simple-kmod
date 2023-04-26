@@ -20,6 +20,7 @@ ARG KVER
 
 # Prep and build the module
 RUN yum install -y make sudo
-#RUN make buildprep KVER=${KVER} KMODVER=${KMODVER}
+WORKDIR src
+RUN make buildprep KVER=${KVER} KMODVER=${KMODVER}
 RUN make all       KVER=${KVER} KMODVER=${KMODVER}
-#RUN make install   KVER=${KVER} KMODVER=${KMODVER}
+RUN make install   KVER=${KVER} KMODVER=${KMODVER}
